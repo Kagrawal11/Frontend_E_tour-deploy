@@ -6,7 +6,7 @@ import Card from '../components/UI/Card';
 import TextInput from '../components/Forms/TextInput';
 
 // Google Client ID - should match backend configuration
-const GOOGLE_CLIENT_ID = '441076747169-m9sogeramkuopg3ejt4a3o8c2pi5h3eg.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '974535477600-5al1igl32so6qq7erc94i20571n8v55f.apps.googleusercontent.com';
 
 const Login = () => {
   const [formData, setFormData] = useState({
