@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 import VirtugoLogo from '../../assets/images/VirtugoLogo.png';
 
@@ -10,13 +12,22 @@ const Navbar = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = () => {
     logout();
+    toast.info('You have been logged out');
     setIsMenuOpen(false);
     navigate('/');
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    navigate('/tours', { state: { searchParams: { location: searchQuery.trim() } } });
+    setIsMenuOpen(false);
   };
 
   const navLinkClass =
@@ -35,6 +46,17 @@ const Navbar = () => {
               />
             </Link>
           </div>
+
+          <form onSubmit={handleSearch} className="hidden lg:flex items-center relative">
+            <MagnifyingGlassIcon className="w-4 h-4 absolute left-3 text-slate-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search destinations..."
+              className="input-field pl-9 py-1.5 w-48 text-sm"
+            />
+          </form>
 
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className={navLinkClass}>
@@ -109,6 +131,16 @@ const Navbar = () => {
         {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
           <div className="md:hidden border-t py-4 pb-6 space-y-4 px-4 animate-slide-up" style={{ borderColor: 'var(--color-border)' }}>
+            <form onSubmit={handleSearch} className="relative">
+              <MagnifyingGlassIcon className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search destinations..."
+                className="input-field pl-9 w-full text-sm"
+              />
+            </form>
             <Link
               to="/"
               onClick={() => setIsMenuOpen(false)}

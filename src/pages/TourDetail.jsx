@@ -37,6 +37,7 @@ const TourDetail = () => {
   const [reviewSummary, setReviewSummary] = useState({ averageRating: 0, reviewCount: 0, reviews: [] });
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     fetchTourDetails();
@@ -108,8 +109,16 @@ const TourDetail = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#7c5cff]"></div>
+      <div className="container mx-auto px-4 py-8 max-w-7xl animate-pulse">
+        <div className="h-6 w-32 rounded mb-8" style={{ background: 'var(--color-surface-2)' }}></div>
+        <div className="h-[400px] rounded-3xl mb-10" style={{ background: 'var(--color-surface-2)' }}></div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-4">
+            <div className="h-40 rounded-xl" style={{ background: 'var(--color-surface-2)' }}></div>
+            <div className="h-40 rounded-xl" style={{ background: 'var(--color-surface-2)' }}></div>
+          </div>
+          <div className="h-64 rounded-xl" style={{ background: 'var(--color-surface-2)' }}></div>
+        </div>
       </div>
     );
   }
@@ -137,6 +146,11 @@ const TourDetail = () => {
   }
 
   const tour = tours[0];
+  const galleryImages = [
+    getImageUrl(tour.imagePath),
+    ...(tour.itineraries || []).map((d) => getImageUrl(d.dayWiseImage)),
+  ].filter(Boolean);
+  const uniqueGallery = [...new Set(galleryImages)];
 
   return (
     <div className="min-h-screen py-8 font-sans">
@@ -154,9 +168,9 @@ const TourDetail = () => {
         {/* Immersive Hero Section */}
         <div className="relative rounded-3xl overflow-hidden shadow-2xl mb-10 h-[400px] flex items-center justify-center animate-fade-in">
           <img
-            src={getImageUrl(tour.imagePath) || "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80"}
+            src={uniqueGallery[activeImage] || "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1600&q=80"}
             alt={tour.categoryName}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
 
@@ -186,6 +200,20 @@ const TourDetail = () => {
             </div>
           </div>
         </div>
+
+        {uniqueGallery.length > 1 && (
+          <div className="flex gap-3 overflow-x-auto pb-2 mb-10 -mt-4">
+            {uniqueGallery.map((img, idx) => (
+              <button
+                key={img + idx}
+                onClick={() => setActiveImage(idx)}
+                className={`shrink-0 w-24 h-16 rounded-lg overflow-hidden border-2 transition-all ${activeImage === idx ? 'border-[#7c5cff]' : 'border-white/10 opacity-70 hover:opacity-100'}`}
+              >
+                <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -354,12 +382,17 @@ const TourDetail = () => {
                 {/* Book Action Area */}
                 <div className="p-6 bg-white/[0.03] border-t border-white/10">
                   <Link
-                    to={`/booking/start/${tour.categoryId}`}
-                    state={{ tour, departures: tour.departures, travelerCounts }}
+                    to={isAuthenticated ? `/booking/start/${tour.categoryId}` : '/login'}
+                    state={isAuthenticated ? { tour, departures: tour.departures, travelerCounts } : { from: { pathname: `/tours/details/${tour.categoryId}` } }}
                     className="block w-full btn-primary w-full text-center py-4 text-lg font-bold"
                   >
                     Book Now
                   </Link>
+                  {!isAuthenticated && (
+                    <p className="mt-2 text-xs text-center text-slate-500">
+                      Browse freely — sign in only when you're ready to book.
+                    </p>
+                  )}
                   <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-500 font-medium">
                     <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

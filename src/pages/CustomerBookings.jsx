@@ -189,8 +189,14 @@ const CustomerBookings = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: "#7c5cff", borderTopColor: "transparent" }}></div>
+      <div className="container mx-auto px-4 py-8 animate-pulse">
+        <div className="h-8 w-56 rounded mb-4" style={{ background: 'var(--color-surface-2)' }}></div>
+        <div className="h-4 w-80 rounded mb-8" style={{ background: 'var(--color-surface-2)' }}></div>
+        <div className="space-y-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="card h-48" style={{ background: 'var(--color-surface-2)' }}></div>
+          ))}
+        </div>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import { customerAPI } from '../api';
 import Card from '../components/UI/Card';
@@ -140,6 +141,7 @@ const Login = () => {
 
     if (result.success) {
       console.log('Login successful, fetching profile...');
+      toast.success('Welcome back!');
       // Fetch profile to get the customer role for redirection
       try {
         const profileResponse = await customerAPI.getProfile();
@@ -159,6 +161,7 @@ const Login = () => {
       }
     } else {
       console.log('Login failed:', result.error);
+      toast.error(result.error || 'Login failed');
     }
   };
 
