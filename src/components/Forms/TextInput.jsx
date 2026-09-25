@@ -14,8 +14,8 @@ const TextInput = ({ label, name, value, onChange, error, placeholder, required 
   return (
     <div className={`mb-4 ${className}`}>
       {label && (
-        <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
-          {label} {required && <span className="text-red-500">*</span>}
+        <label htmlFor={name} className="block text-sm font-medium text-slate-300 mb-1.5">
+          {label} {required && <span className="text-rose-400">*</span>}
         </label>
       )}
       <div className="relative">
@@ -27,13 +27,13 @@ const TextInput = ({ label, name, value, onChange, error, placeholder, required 
           onChange={onChange}
           placeholder={placeholder}
           required={required}
-          className={`input-field w-full ${error ? 'border-red-500' : ''} ${isPassword ? 'pr-10' : ''}`}
+          className={`input-field w-full ${error ? '!border-rose-500' : ''} ${isPassword ? 'pr-10' : ''}`}
         />
         {isPassword && (
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 focus:outline-none cursor-pointer"
           >
             {showPassword ? (
               <EyeSlashIcon className="h-5 w-5" aria-hidden="true" />
@@ -44,7 +44,7 @@ const TextInput = ({ label, name, value, onChange, error, placeholder, required 
         )}
       </div>
       {error && (
-        <p className="mt-1 text-sm text-red-600">{error}</p>
+        <p className="mt-1 text-sm text-rose-400">{error}</p>
       )}
     </div>
   );

@@ -175,7 +175,7 @@ const BookingStart = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
       </div>
     );
   }
@@ -183,7 +183,7 @@ const BookingStart = () => {
   if (error || !tour) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">{error}</p>
+        <p className="text-rose-400">{error}</p>
         <Link to="/tours" className="btn-primary mt-4 inline-block">
           Back to Tours
         </Link>
@@ -192,9 +192,9 @@ const BookingStart = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-8 min-h-screen bg-gray-50">
+    <div className="container mx-auto px-4 md:px-8 py-8 min-h-screen">
 
-      <h1 className="text-3xl font-bold mb-6 text-gray-900">
+      <h1 className="text-3xl font-bold mb-6 text-slate-100">
         Book Your Tour
       </h1>
 
@@ -211,15 +211,15 @@ const BookingStart = () => {
           {currentStep === 0 && (
             <Card>
               <div className="p-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">
+                <h2 className="text-xl font-semibold mb-4 text-slate-100">
                   Selected Tour
                 </h2>
 
-                <div className="bg-sky-50 p-4 rounded-lg border border-sky-100 mb-6">
-                  <h3 className="font-bold text-sky-900 text-lg">
+                <div className="p-4 rounded-xl border border-[#7c5cff]/20 bg-[#7c5cff]/[0.06] mb-6">
+                  <h3 className="font-bold text-slate-100 text-lg">
                     {tour.categoryName}
                   </h3>
-                  <p className="text-sm text-sky-700 mt-1">Great choice for your next adventure!</p>
+                  <p className="text-sm text-slate-300 mt-1">Great choice for your next adventure!</p>
                 </div>
 
                 <button
@@ -236,7 +236,7 @@ const BookingStart = () => {
           {currentStep === 1 && (
             <Card>
               <div className="p-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">
+                <h2 className="text-xl font-semibold mb-4 text-slate-100">
                   Select Departure Date
                 </h2>
 
@@ -246,8 +246,8 @@ const BookingStart = () => {
                       key={dep.id}
                       className={`relative flex flex-col sm:flex-row sm:items-center border-2 rounded-xl p-4 cursor-pointer transition-all duration-200
                         ${selectedDeparture?.id !== undefined && selectedDeparture.id === dep.id
-                          ? 'border-sky-600 bg-sky-50 shadow-md transform scale-[1.01]'
-                          : 'border-gray-100 hover:border-sky-200 hover:bg-gray-50'
+                          ? 'border-[#7c5cff] bg-[#7c5cff]/[0.08] shadow-md transform scale-[1.01]'
+                          : 'border-white/10 hover:border-[#7c5cff]/40 hover:bg-white/[0.03]'
                         }
                       `}
                     >
@@ -263,7 +263,7 @@ const BookingStart = () => {
                       />
 
                       {/* Check Circle */}
-                      <div className={`flex-shrink-0 w-6 h-6 rounded-full border-2 mr-4 mb-2 sm:mb-0 flex items-center justify-center transition-colors ${selectedDeparture?.id !== undefined && selectedDeparture.id === dep.id ? 'border-sky-600 bg-sky-600' : 'border-gray-300 bg-white'
+                      <div className={`flex-shrink-0 w-6 h-6 rounded-full border-2 mr-4 mb-2 sm:mb-0 flex items-center justify-center transition-colors ${selectedDeparture?.id !== undefined && selectedDeparture.id === dep.id ? 'border-[#7c5cff] bg-[#7c5cff]' : 'border-white/20 bg-transparent'
                         }`}>
                         {selectedDeparture?.id !== undefined && selectedDeparture.id === dep.id && (
                           <div className="w-2.5 h-2.5 bg-white rounded-full"></div>
@@ -272,20 +272,20 @@ const BookingStart = () => {
 
                       <div className="flex-grow grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 w-full">
                         <div>
-                          <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Departure</p>
-                          <p className="font-bold text-gray-800 text-lg">
+                          <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Departure</p>
+                          <p className="font-bold text-slate-100 text-lg">
                             {formatDate(dep.departDate)}
                           </p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Return</p>
-                          <p className="font-medium text-gray-700">
+                          <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Return</p>
+                          <p className="font-medium text-slate-300">
                             {formatDate(dep.endDate)}
                           </p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Duration</p>
-                          <p className="font-medium text-gray-700">
+                          <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Duration</p>
+                          <p className="font-medium text-slate-300">
                             {dep.noOfDays} Days
                           </p>
                         </div>
@@ -343,15 +343,15 @@ const BookingStart = () => {
           {currentStep === 5 && (
             <Card>
               <div className="p-12 text-center">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-400/20" style={{ background: 'rgba(52,211,153,0.12)' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-2">
+                <h2 className="text-3xl font-extrabold text-slate-100 mb-2">
                   Booking Confirmed!
                 </h2>
-                <p className="text-gray-500 max-w-md mx-auto">
+                <p className="text-slate-400 max-w-md mx-auto">
                   Your adventure awaits. We have sent a confirmation email with all the details.
                 </p>
                 <div className="mt-8">

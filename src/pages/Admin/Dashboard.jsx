@@ -81,22 +81,22 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-      <p className="text-gray-600 mb-8">Manage tours, bookings, and customers</p>
+      <h1 className="text-3xl font-bold text-slate-100 mb-2">Admin Dashboard</h1>
+      <p className="text-slate-400 mb-8">Manage tours, bookings, and customers</p>
 
       {loading ? (
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {stats.map((stat, index) => (
-              <Card key={index} className="p-6">
-                <p className="text-sm font-medium text-gray-500 mb-1">{stat.label}</p>
+              <Card key={index} className="p-6 card-hover">
+                <p className="text-sm font-medium text-slate-500 mb-1">{stat.label}</p>
                 <div className="flex items-baseline justify-between">
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                  <span className={`text-sm font-medium ${stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className="text-2xl font-bold text-slate-100">{stat.value}</p>
+                  <span className={`text-sm font-medium ${stat.changeType === 'positive' ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {stat.change}
                   </span>
                 </div>
@@ -106,8 +106,8 @@ const AdminDashboard = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             {/* Recent Bookings Table */}
-            <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Bookings</h2>
+            <div className="lg:col-span-2 card p-6">
+              <h2 className="text-xl font-semibold text-slate-100 mb-4">Recent Bookings</h2>
               {recentBookingsData.length > 0 ? (
                 <Table
                   headers={bookingHeaders}
@@ -115,16 +115,16 @@ const AdminDashboard = () => {
                   className="text-sm"
                 />
               ) : (
-                <p className="text-center py-8 text-gray-500 italic">No bookings found yet.</p>
+                <p className="text-center py-8 text-slate-500 italic">No bookings found yet.</p>
               )}
             </div>
 
             {/* Admin Actions */}
             <div className="space-y-6">
               <Card className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Upload Itinerary</h3>
+                <h3 className="text-lg font-semibold text-slate-100 mb-4">Upload Itinerary</h3>
                 <div className="space-y-4">
-                  <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 text-center">
+                  <div className="border-2 border-dashed rounded-xl p-4 text-center" style={{ borderColor: 'var(--color-border-strong)' }}>
                     <input
                       type="file"
                       accept=".csv"
@@ -133,10 +133,10 @@ const AdminDashboard = () => {
                       id="csv-upload"
                     />
                     <label htmlFor="csv-upload" className="cursor-pointer">
-                      <div className="text-blue-600 font-medium hover:text-blue-700">
+                      <div className="gradient-text font-medium hover:opacity-80">
                         {csvFile ? csvFile.name : 'Choose CSV File'}
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">Maximum size: 5MB</p>
+                      <p className="text-xs text-slate-500 mt-1">Maximum size: 5MB</p>
                     </label>
                   </div>
                   <button
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
                     Upload Itinerary
                   </button>
                   {uploadMsg && (
-                    <p className={`text-sm text-center ${uploadMsg.includes('❌') ? 'text-red-600' : 'text-green-600'}`}>
+                    <p className={`text-sm text-center ${uploadMsg.includes('❌') ? 'text-rose-400' : 'text-emerald-400'}`}>
                       {uploadMsg}
                     </p>
                   )}

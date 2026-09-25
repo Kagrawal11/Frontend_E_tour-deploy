@@ -4,8 +4,8 @@ const DatePicker = ({ label, name, value, onChange, error, required = false, cla
   return (
     <div className={`mb-4 ${className}`}>
       {label && (
-        <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
-          {label} {required && <span className="text-red-500">*</span>}
+        <label htmlFor={name} className="block text-sm font-medium text-slate-300 mb-1.5">
+          {label} {required && <span className="text-rose-400">*</span>}
         </label>
       )}
       <input
@@ -15,10 +15,10 @@ const DatePicker = ({ label, name, value, onChange, error, required = false, cla
         value={value}
         onChange={onChange}
         required={required}
-        className={`input-field ${error ? 'border-red-500' : ''}`}
+        className={`input-field [color-scheme:dark] ${error ? '!border-rose-500' : ''}`}
       />
       {error && (
-        <p className="mt-1 text-sm text-red-600">{error}</p>
+        <p className="mt-1 text-sm text-rose-400">{error}</p>
       )}
     </div>
   );

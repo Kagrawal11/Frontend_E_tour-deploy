@@ -6,7 +6,7 @@ const Tabs = ({ tabs, defaultTab = 0 }) => {
 
   return (
     <div className="w-full">
-      <div className="border-b border-gray-200">
+      <div className="border-b" style={{ borderColor: 'var(--color-border)' }}>
         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
           {tabs.map((tab, index) => (
             <button
@@ -14,8 +14,8 @@ const Tabs = ({ tabs, defaultTab = 0 }) => {
               onClick={() => setActiveTab(index)}
               className={`${
                 activeTab === index
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-[#7c5cff] text-white'
+                  : 'border-transparent text-slate-500 hover:text-slate-300 hover:border-white/20'
               } whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200`}
               aria-current={activeTab === index ? 'page' : undefined}
             >

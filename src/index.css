@@ -1,52 +1,155 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: #08090f;
+  --color-surface: #0f111a;
+  --color-surface-2: #151827;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-text: #f4f5f7;
+  --color-text-muted: #9aa1b1;
+  --color-text-faint: #5f6576;
+  --color-accent: #7c5cff;
+  --color-accent-2: #22d3ee;
+}
+
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
   body {
     @apply font-sans antialiased;
+    background: radial-gradient(120% 100% at 10% 0%, #151327 0%, #08090f 45%),
+      radial-gradient(100% 80% at 100% 0%, #0d1b2a 0%, #08090f 50%), #08090f;
+    color: var(--color-text);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262a3a;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #34394d;
   }
 }
 
 @layer components {
+  /* ---------- Buttons ---------- */
   .btn-primary {
-    @apply bg-sky-600 text-white px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-medium text-white
+      shadow-[0_0_0_1px_rgba(124,92,255,0.4),0_8px_24px_-8px_rgba(124,92,255,0.6)]
+      transition-all duration-200 hover:shadow-[0_0_0_1px_rgba(124,92,255,0.6),0_10px_32px_-6px_rgba(124,92,255,0.8)]
+      hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none;
+    background: linear-gradient(135deg, #7c5cff 0%, #5b8cff 55%, #22d3ee 100%);
   }
 
   .btn-secondary {
-    @apply bg-slate-200 text-slate-800 px-4 py-2 rounded-lg hover:bg-slate-300 transition-colors;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-medium
+      bg-white/[0.04] text-slate-100 border border-white/10 backdrop-blur-sm
+      transition-all duration-200 hover:bg-white/[0.08] hover:border-white/20
+      hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none;
   }
 
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 font-medium
+      text-slate-300 transition-colors duration-200 hover:text-white hover:bg-white/[0.06];
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-medium text-white
+      bg-rose-600/90 border border-rose-500/40 transition-all duration-200
+      hover:bg-rose-600 hover:-translate-y-0.5 disabled:opacity-50;
+  }
+
+  /* ---------- Surfaces ---------- */
   .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden;
+    @apply rounded-2xl border overflow-hidden;
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
+    border-color: var(--color-border);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  .card-hover:hover {
+    border-color: var(--color-border-strong);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 48px -20px rgba(124, 92, 255, 0.35);
+  }
+
+  .panel {
+    @apply rounded-2xl border p-6;
+    background: var(--color-surface);
+    border-color: var(--color-border);
   }
 
   .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply w-full px-4 py-2.5 rounded-xl text-slate-100 placeholder:text-slate-500
+      border transition-all duration-150 outline-none;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--color-border);
+  }
+  .input-field:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+    background: rgba(255, 255, 255, 0.05);
   }
 
-  /* Glassmorphism Utilities */
-  .glass {
-    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
   }
-  
+
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #7c5cff 40%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glow {
+    box-shadow: 0 0 80px -20px rgba(124, 92, 255, 0.45);
+  }
+
+  /* Glassmorphism */
+  .glass {
+    @apply backdrop-blur-xl border;
+    background: rgba(15, 17, 26, 0.6);
+    border-color: var(--color-border);
+  }
+
   .glass-dark {
     @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl;
   }
 
   /* Animation Utilities */
   .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
+    animation: fadeIn 0.6s ease-out forwards;
   }
-  
   .animate-slide-up {
-    animation: slideUp 0.8s ease-out forwards;
+    animation: slideUp 0.6s ease-out forwards;
   }
-  
   .animate-scale-in {
-    animation: scaleIn 0.5s ease-out forwards;
+    animation: scaleIn 0.4s ease-out forwards;
   }
-
   .hover-scale {
-    @apply transition-transform duration-300 hover:scale-105;
+    @apply transition-transform duration-300 hover:scale-[1.03];
   }
 }
 
@@ -55,13 +158,18 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.94); }
   to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 2.4s ease-in-out infinite;
 }

@@ -29,11 +29,12 @@ const Login = () => {
         });
         window.google.accounts.id.renderButton(
           googleButtonRef.current,
-          { 
-            theme: 'outline', 
-            size: 'large', 
+          {
+            theme: 'filled_black',
+            size: 'large',
             width: googleButtonRef.current.offsetWidth,
             text: 'continue_with',
+            shape: 'pill',
           }
         );
       }
@@ -162,15 +163,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10" style={{ background: 'radial-gradient(60% 50% at 50% 0%, rgba(124,92,255,0.12) 0%, transparent 70%)' }}></div>
+      <div className="max-w-md w-full space-y-8 animate-fade-in">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-3xl font-extrabold text-slate-100">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-slate-400">
             Or{' '}
-            <Link to="/register" className="font-medium text-sky-600 hover:text-sky-500">
+            <Link to="/register" className="font-medium gradient-text hover:opacity-80">
               create a new account
             </Link>
           </p>
@@ -208,15 +210,15 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
+                  className="h-4 w-4 accent-[#7c5cff] border-white/20 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-300">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-sky-600 hover:text-sky-500">
+                <Link to="/forgot-password" className="font-medium gradient-text hover:opacity-80">
                   Forgot your password?
                 </Link>
               </div>
@@ -226,7 +228,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 disabled:opacity-50"
+                className="btn-primary group relative w-full"
               >
                 {loading ? (
                   <div className="flex items-center">
@@ -242,22 +244,22 @@ const Login = () => {
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t" style={{ borderColor: 'var(--color-border)' }}></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 text-slate-500" style={{ background: 'var(--color-surface)' }}>Or continue with</span>
               </div>
             </div>
 
             {/* Google Sign-In Button (rendered by Google SDK) */}
-            <div 
-              ref={googleButtonRef} 
+            <div
+              ref={googleButtonRef}
               className="w-full flex justify-center"
             ></div>
 
             {/* Google Error Message */}
             {googleError && (
-              <div className="text-red-600 text-sm text-center">
+              <div className="text-rose-400 text-sm text-center">
                 {googleError}
               </div>
             )}

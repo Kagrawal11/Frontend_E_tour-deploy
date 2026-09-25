@@ -20,13 +20,13 @@ const ResetPassword = () => {
     // Redirect if no token is present
     if (!token) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+            <div className="min-h-screen flex items-center justify-center px-4">
                 <div className="max-w-md w-full text-center">
-                    <h2 className="text-xl font-bold text-red-600">Invalid Request</h2>
-                    <p className="mt-2 text-gray-600">Missing password reset token.</p>
+                    <h2 className="text-xl font-bold text-rose-400">Invalid Request</h2>
+                    <p className="mt-2 text-slate-400">Missing password reset token.</p>
                     <button
                         onClick={() => navigate('/login')}
-                        className="mt-4 text-blue-600 hover:underline"
+                        className="mt-4 gradient-text hover:opacity-80"
                     >
                         Go to Login
                     </button>
@@ -70,13 +70,14 @@ const ResetPassword = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div className="absolute inset-0 -z-10" style={{ background: 'radial-gradient(60% 50% at 50% 0%, rgba(124,92,255,0.12) 0%, transparent 70%)' }}></div>
+            <div className="max-w-md w-full space-y-8 animate-fade-in">
                 <div className="text-center">
-                    <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+                    <h2 className="mt-6 text-3xl font-extrabold text-slate-100">
                         Reset Password
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-slate-400">
                         Enter your new password below
                     </p>
                 </div>
@@ -84,13 +85,13 @@ const ResetPassword = () => {
                 <Card>
                     <form className="p-6 space-y-6" onSubmit={handleSubmit}>
                         {error && (
-                            <div className="p-4 bg-red-50 text-red-700 rounded-md text-sm">
+                            <div className="p-4 bg-rose-400/10 text-rose-300 border border-rose-400/20 rounded-xl text-sm">
                                 {error}
                             </div>
                         )}
 
                         {success && (
-                            <div className="p-4 bg-green-50 text-green-700 rounded-md text-sm">
+                            <div className="p-4 bg-emerald-400/10 text-emerald-300 border border-emerald-400/20 rounded-xl text-sm">
                                 {success}
                             </div>
                         )}
@@ -119,7 +120,7 @@ const ResetPassword = () => {
                             <button
                                 type="submit"
                                 disabled={loading || success}
-                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                                className="btn-primary group relative w-full"
                             >
                                 {loading ? 'Processing...' : 'Reset Password'}
                             </button>

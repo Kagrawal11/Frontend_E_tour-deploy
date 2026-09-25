@@ -161,7 +161,7 @@ const Tours = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
       </div>
     );
   }
@@ -169,7 +169,7 @@ const Tours = () => {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600 text-lg">{error}</p>
+        <p className="text-rose-400 text-lg">{error}</p>
       </div>
     );
   }
@@ -177,11 +177,11 @@ const Tours = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-10 text-center animate-fade-in">
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+        <h1 className="text-4xl font-extrabold text-slate-100 mb-4 tracking-tight">
           {isSearchMode ? "Search Results" : "Available Tours"}
         </h1>
-        <div className="w-20 h-1.5 bg-sky-500 mx-auto rounded-full mb-4"></div>
-        <p className="text-xl text-gray-600 font-light">Discover your next adventure</p>
+        <div className="w-20 h-1.5 mx-auto rounded-full mb-4" style={{ background: 'linear-gradient(90deg, #7c5cff, #22d3ee)' }}></div>
+        <p className="text-xl text-slate-400 font-light">Discover your next adventure</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-slide-up">
@@ -210,33 +210,34 @@ const Tours = () => {
                     }}
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500">No Image</span>
+                  <div className="w-full h-full flex items-center justify-center" style={{ background: 'var(--color-surface-2)' }}>
+                    <span className="text-slate-500">No Image</span>
                   </div>
                 )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
               </div>
 
               <div className="p-4 flex flex-col flex-grow">
-                <span className="text-xs text-sky-600 font-medium shrink-0">
+                <span className="text-xs text-[#22d3ee] font-medium shrink-0">
                   {tour.category_name}
                 </span>
 
-                <h3 className="text-lg font-semibold text-gray-900 mt-2 shrink-0">
+                <h3 className="text-lg font-semibold text-slate-100 mt-2 shrink-0">
                   {tour.tour_name}
                 </h3>
 
-                <p className="text-gray-600 text-sm line-clamp-2 mt-2 flex-grow">
+                <p className="text-slate-400 text-sm line-clamp-2 mt-2 flex-grow">
                   {tour.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-4 text-sm text-gray-500 shrink-0">
+                <div className="flex items-center justify-between mt-4 text-sm text-slate-500 shrink-0">
                   <span>Var. Days</span>
                   <span>⭐ {tour.rating}</span>
                 </div>
 
                 <div className="mt-2 min-h-[1.5rem] flex items-center shrink-0">
                   {tour.jumpFlag && tour.starting_price ? (
-                    <span className="text-sky-700 font-semibold">
+                    <span className="gradient-text font-semibold">
                       Starting from ₹{tour.starting_price}
                     </span>
                   ) : (
@@ -245,8 +246,8 @@ const Tours = () => {
                 </div>
 
                 <div className="flex justify-between items-center mt-2 shrink-0">
-                  <span className="text-sky-700 font-bold">View</span>
-                  <span className="text-sky-700 text-sm">View Packages →</span>
+                  <span className="text-slate-200 font-bold">View</span>
+                  <span className="gradient-text text-sm">View Packages →</span>
                 </div>
               </div>
             </Card>
@@ -256,7 +257,7 @@ const Tours = () => {
 
       {displayTours.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No tours found.</p>
+          <p className="text-slate-500 text-lg">No tours found.</p>
         </div>
       )}
     </div>

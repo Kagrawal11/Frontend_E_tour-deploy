@@ -166,7 +166,7 @@ const CustomerProfile = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
         </div>
       </div>
     );
@@ -176,7 +176,7 @@ const CustomerProfile = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p className="text-gray-600">Unable to load profile. Please try again.</p>
+          <p className="text-slate-400">Unable to load profile. Please try again.</p>
         </div>
       </div>
     );
@@ -186,11 +186,11 @@ const CustomerProfile = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+          <h1 className="text-3xl font-bold text-slate-100">My Profile</h1>
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="btn-primary text-sm"
             >
               {profile.profileCompleted ? 'Edit Profile' : 'Complete Profile'}
             </button>
@@ -198,20 +198,20 @@ const CustomerProfile = () => {
         </div>
 
         {!profile.profileCompleted && (
-          <div className="mb-6 bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded">
+          <div className="mb-6 bg-amber-400/10 border border-amber-400/20 text-amber-300 px-4 py-3 rounded-xl">
             <p className="font-semibold">⚠️ Complete Your Profile</p>
             <p className="text-sm">Please complete your profile information to continue using the platform.</p>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded">
+          <div className="mb-6 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 px-4 py-3 rounded-xl">
             {successMessage}
           </div>
         )}
 
         {errors.submit && (
-          <div className="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
+          <div className="mb-6 bg-rose-400/10 border border-rose-400/20 text-rose-300 px-4 py-3 rounded-xl">
             {errors.submit}
           </div>
         )}
@@ -262,7 +262,7 @@ const CustomerProfile = () => {
                 placeholder="10-digit phone number"
                 required={profile?.authProvider === 'GOOGLE' && !profile?.profileCompleted}
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-slate-500">
                 Must be 10 digits starting with 6, 7, 8, or 9
                 {profile?.authProvider === 'GOOGLE' && !profile?.profileCompleted && ' (Required for Google login)'}
               </p>
@@ -277,7 +277,7 @@ const CustomerProfile = () => {
                 required={profile?.authProvider === 'GOOGLE' && !profile?.profileCompleted}
               />
               {profile?.authProvider === 'GOOGLE' && !profile?.profileCompleted && (
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-slate-500">
                   Address is required for Google login users
                 </p>
               )}
@@ -287,7 +287,7 @@ const CustomerProfile = () => {
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                    className="btn-secondary"
                   >
                     Cancel
                   </button>
@@ -295,7 +295,7 @@ const CustomerProfile = () => {
                 <button
                   type="submit"
                   disabled={updating}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                  className="btn-primary"
                 >
                   {updating ? (
                     <div className="flex items-center">
@@ -312,34 +312,34 @@ const CustomerProfile = () => {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                  <p className="text-gray-900">{profile.firstName || '-'}</p>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">First Name</label>
+                  <p className="text-slate-100">{profile.firstName || '-'}</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                  <p className="text-gray-900">{profile.lastName || '-'}</p>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Last Name</label>
+                  <p className="text-slate-100">{profile.lastName || '-'}</p>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <p className="text-gray-900">{profile.email || '-'}</p>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
+                <p className="text-slate-100">{profile.email || '-'}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <p className="text-gray-900">{profile.phone || 'Not provided'}</p>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Phone Number</label>
+                <p className="text-slate-100">{profile.phone || 'Not provided'}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                <p className="text-gray-900">{profile.address || 'Not provided'}</p>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Address</label>
+                <p className="text-slate-100">{profile.address || 'Not provided'}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Auth Provider</label>
-                <p className="text-gray-900 capitalize">{profile.authProvider?.toLowerCase() || '-'}</p>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Auth Provider</label>
+                <p className="text-slate-100 capitalize">{profile.authProvider?.toLowerCase() || '-'}</p>
               </div>
             </div>
           )}

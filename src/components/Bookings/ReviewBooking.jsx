@@ -221,21 +221,21 @@ const ReviewBooking = () => {
   const formatDate = (date) => new Date(date).toLocaleDateString();
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden relative">
+    <div className="card relative">
 
       {/* Verification Overlay */}
       {isVerifying && (
-        <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Verifying Payment</h3>
-          <p className="text-gray-600">{verificationStatus}</p>
-          <p className="mt-4 text-xs text-gray-400">Please do not refresh or close this page.</p>
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center" style={{ background: 'rgba(8,9,15,0.92)', backdropFilter: 'blur(6px)' }}>
+          <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mb-4" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
+          <h3 className="text-xl font-bold text-slate-100 mb-2">Verifying Payment</h3>
+          <p className="text-slate-400">{verificationStatus}</p>
+          <p className="mt-4 text-xs text-slate-500">Please do not refresh or close this page.</p>
         </div>
       )}
 
-      <div className="p-6 border-b border-gray-100 bg-gray-50">
-        <h2 className="text-xl font-bold text-gray-900">Review & Confirm</h2>
-        <p className="text-sm text-gray-500">Please review your booking details before proceeding.</p>
+      <div className="p-6 border-b" style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
+        <h2 className="text-xl font-bold text-slate-100">Review & Confirm</h2>
+        <p className="text-sm text-slate-500">Please review your booking details before proceeding.</p>
       </div>
 
       <div className="p-6 space-y-8">
@@ -243,31 +243,31 @@ const ReviewBooking = () => {
         {/* Tour Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Tour Information</h3>
-            <div className="bg-sky-50 p-4 rounded-lg border border-sky-100">
-              <p className="font-bold text-sky-900 text-lg">{selectedTour?.categoryName}</p>
-              <div className="mt-2 text-sm text-sky-800 space-y-1">
-                <p><span className="font-semibold">Departure:</span> {formatDate(selectedDeparture?.departDate)}</p>
-                <p><span className="font-semibold">Return:</span> {formatDate(selectedDeparture?.endDate)}</p>
-                <p><span className="font-semibold">Duration:</span> {selectedDeparture?.noOfDays} Days</p>
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Tour Information</h3>
+            <div className="p-4 rounded-xl border border-[#7c5cff]/20 bg-[#7c5cff]/[0.06]">
+              <p className="font-bold text-slate-100 text-lg">{selectedTour?.categoryName}</p>
+              <div className="mt-2 text-sm text-slate-300 space-y-1">
+                <p><span className="font-semibold text-slate-200">Departure:</span> {formatDate(selectedDeparture?.departDate)}</p>
+                <p><span className="font-semibold text-slate-200">Return:</span> {formatDate(selectedDeparture?.endDate)}</p>
+                <p><span className="font-semibold text-slate-200">Duration:</span> {selectedDeparture?.noOfDays} Days</p>
               </div>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Payment Summary</h3>
-            <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2">
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Payment Summary</h3>
+            <div className="p-4 rounded-xl border space-y-2" style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Base Amount</span>
-                <span className="font-medium">₹{calculateTotal().toFixed(2)}</span>
+                <span className="text-slate-400">Base Amount</span>
+                <span className="font-medium text-slate-200">₹{calculateTotal().toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Taxes (10%)</span>
-                <span className="font-medium">₹{(calculateTotal() * 0.1).toFixed(2)}</span>
+                <span className="text-slate-400">Taxes (10%)</span>
+                <span className="font-medium text-slate-200">₹{(calculateTotal() * 0.1).toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-lg font-bold border-t border-gray-200 pt-2 mt-2">
-                <span className="text-gray-900">Total</span>
-                <span className="text-sky-600">₹{(calculateTotal() * 1.1).toFixed(2)}</span>
+              <div className="flex justify-between text-lg font-bold border-t pt-2 mt-2" style={{ borderColor: 'var(--color-border)' }}>
+                <span className="text-slate-100">Total</span>
+                <span className="gradient-text">₹{(calculateTotal() * 1.1).toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -275,26 +275,26 @@ const ReviewBooking = () => {
 
         {/* Passenger List */}
         <div>
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Passenger Details ({passengers.length})</h3>
-          <div className="overflow-x-auto">
+          <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3">Passenger Details ({passengers.length})</h3>
+          <div className="overflow-x-auto rounded-xl border" style={{ borderColor: 'var(--color-border)' }}>
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="bg-gray-100 border-b border-gray-200">
-                  <th className="p-3 font-semibold text-gray-700">#</th>
-                  <th className="p-3 font-semibold text-gray-700">Name</th>
-                  <th className="p-3 font-semibold text-gray-700">Birth Date</th>
-                  <th className="p-3 font-semibold text-gray-700">Type</th>
+                <tr className="border-b" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'var(--color-border)' }}>
+                  <th className="p-3 font-semibold text-slate-400">#</th>
+                  <th className="p-3 font-semibold text-slate-400">Name</th>
+                  <th className="p-3 font-semibold text-slate-400">Birth Date</th>
+                  <th className="p-3 font-semibold text-slate-400">Type</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
                 {passengers.map((pax, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="p-3 text-gray-500">{index + 1}</td>
-                    <td className="p-3 font-medium text-gray-900">{pax.pax_name}</td>
-                    <td className="p-3 text-gray-600">{pax.pax_birthdate}</td>
-                    <td className="p-3 text-gray-600 capitalize">
+                  <tr key={index} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="p-3 text-slate-500">{index + 1}</td>
+                    <td className="p-3 font-medium text-slate-100">{pax.pax_name}</td>
+                    <td className="p-3 text-slate-400">{pax.pax_birthdate}</td>
+                    <td className="p-3 text-slate-400 capitalize">
                       {pax.pax_type.replace(/_/g, ' ')}
-                      {pax.is_extra && <span className="ml-2 text-xs bg-sky-100 text-sky-700 px-1.5 py-0.5 rounded">Extra</span>}
+                      {pax.is_extra && <span className="ml-2 text-xs badge">Extra</span>}
                     </td>
                   </tr>
                 ))}
@@ -303,7 +303,7 @@ const ReviewBooking = () => {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row justify-end gap-4">
+        <div className="pt-6 border-t flex flex-col sm:flex-row justify-end gap-4" style={{ borderColor: 'var(--color-border)' }}>
           <button
             onClick={() => setStep(2)}
             className="btn-secondary w-full sm:w-auto text-center"

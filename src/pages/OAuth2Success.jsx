@@ -82,22 +82,23 @@ const OAuth2Success = () => {
     }, []); // Empty dependency array - only run once on mount
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 -z-10" style={{ background: 'radial-gradient(60% 50% at 50% 50%, rgba(124,92,255,0.12) 0%, transparent 70%)' }}></div>
             <div className="max-w-md w-full text-center p-8">
                 {error ? (
                     <div className="space-y-4">
-                        <div className="text-red-600 text-xl font-semibold">
+                        <div className="text-rose-400 text-xl font-semibold">
                             {error}
                         </div>
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent mx-auto" style={{ borderColor: '#fb7185', borderTopColor: 'transparent' }}></div>
                     </div>
                 ) : (
                     <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-gray-900">
+                        <h2 className="text-2xl font-bold text-slate-100">
                             Completing Sign In...
                         </h2>
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                        <p className="text-gray-600">
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent mx-auto" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
+                        <p className="text-slate-400">
                             Please wait while we complete your authentication
                         </p>
                     </div>

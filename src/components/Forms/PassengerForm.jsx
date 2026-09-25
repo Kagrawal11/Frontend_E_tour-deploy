@@ -146,25 +146,25 @@ const PassengerForm = () => {
   return (
     <Card>
       <div className="p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">
+        <h2 className="text-xl font-semibold text-slate-100 mb-6">
           Passenger Details
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {passengers.map((passenger, index) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-4">
+            <div key={index} className="border rounded-xl p-4" style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-lg font-medium text-slate-100">
                   Passenger {index + 1}
                   {passenger.is_extra && (
-                    <span className="ml-2 text-sm text-blue-600">(Extra)</span>
+                    <span className="ml-2 text-sm text-[#22d3ee]">(Extra)</span>
                   )}
                 </h3>
                 {passengers.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removePassengerHandler(index)}
-                    className="text-red-600 hover:text-red-700"
+                    className="text-rose-400 hover:text-rose-300 transition-colors"
                   >
                     <TrashIcon className="w-5 h-5" />
                   </button>
@@ -195,11 +195,11 @@ const PassengerForm = () => {
               </div>
 
                 {/* [NEW] Type Display & Bed Option */}
-                <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
+                <div className="p-3 rounded-lg border mt-4" style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.03)' }}>
                   <div className="flex justify-between items-center">
                     <div>
-                      <span className="text-xs text-gray-500 uppercase font-bold tracking-wider">Type</span>
-                      <p className="font-medium text-gray-800 capitalize">
+                      <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Type</span>
+                      <p className="font-medium text-slate-200 capitalize">
                          {passenger.pax_type.replace(/_/g, ' ')}
                       </p>
                     </div>
@@ -215,9 +215,9 @@ const PassengerForm = () => {
                             const newType = e.target.checked ? 'child_with_bed' : 'child_without_bed';
                             handlePassengerChange(index, 'pax_type', newType);
                           }}
-                          className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
+                          className="h-4 w-4 accent-[#7c5cff] rounded"
                         />
-                        <label htmlFor={`bed-${index}`} className="ml-2 block text-sm text-gray-900 cursor-pointer">
+                        <label htmlFor={`bed-${index}`} className="ml-2 block text-sm text-slate-300 cursor-pointer">
                           Need Extra Bed?
                         </label>
                       </div>
@@ -233,9 +233,9 @@ const PassengerForm = () => {
                           onChange={(e) => {
                             handlePassengerChange(index, 'isSingleRoom', e.target.checked);
                           }}
-                          className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
+                          className="h-4 w-4 accent-[#7c5cff] rounded"
                         />
-                        <label htmlFor={`room-${index}`} className="ml-2 block text-sm text-gray-900 cursor-pointer">
+                        <label htmlFor={`room-${index}`} className="ml-2 block text-sm text-slate-300 cursor-pointer">
                           Separate Room?
                         </label>
                       </div>
@@ -245,11 +245,11 @@ const PassengerForm = () => {
             </div>
           ))}
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
             <button
               type="button"
               onClick={addNewPassenger}
-              className="flex items-center text-blue-600 hover:text-blue-700 font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+              className="flex items-center gradient-text font-medium px-2 py-1 rounded-lg hover:bg-white/[0.05] transition-colors"
             >
               <PlusIcon className="w-5 h-5 mr-2" />
               Add Another Passenger
