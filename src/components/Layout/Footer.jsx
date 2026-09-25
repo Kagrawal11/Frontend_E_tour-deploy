@@ -77,19 +77,19 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
+                <Link to="/contact" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
+                <Link to="/privacy-policy" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
+                <Link to="/terms-of-service" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
                   Terms of Service
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -101,10 +101,10 @@ const Footer = () => {
                 <span className="text-[#8b7bff]">📧</span> etourvirtugo@gmail.com
               </p>
               <p className="flex items-center gap-2">
-                <span className="text-[#8b7bff]">📞</span> 9326923786
+                <span className="text-[#8b7bff]">📞</span> 1800-123-4567
               </p>
               <p className="flex items-center gap-2">
-                <span className="text-[#8b7bff]">📍</span> SM VITA mumbai
+                <span className="text-[#8b7bff]">📍</span> 221B Travel Lane, Bandra West, Mumbai 400050
               </p>
               <p className="flex items-center gap-2 text-sm text-slate-500">
                 <span className="text-[#8b7bff]">🕐</span> Mon-Fri: 9AM-6PM EST

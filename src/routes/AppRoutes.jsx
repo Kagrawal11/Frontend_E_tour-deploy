@@ -14,6 +14,9 @@ import AdminDashboard from "../pages/Admin/Dashboard";
 import HealthPage from "../pages/Health";
 import Wishlist from "../pages/Wishlist";
 import FAQ from "../pages/FAQ";
+import ContactUs from "../pages/ContactUs";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import TermsOfService from "../pages/TermsOfService";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => {
@@ -23,6 +26,7 @@ const AppRoutes = () => {
 
       <Route path="/tours" element={<Tours />} />
       <Route path="/tours/:id" element={<Tours />} />
+      <Route path="/categories" element={<Tours />} />
       <Route path="/tours/details/:id" element={<TourDetail />} />
       <Route
         path="/booking/start/:tourId"
@@ -57,6 +61,9 @@ const AppRoutes = () => {
       <Route path="/health" element={<HealthPage />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/faq" element={<FAQ />} />
+      <Route path="/contact" element={<ContactUs />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
     </Routes>
   );
 };
