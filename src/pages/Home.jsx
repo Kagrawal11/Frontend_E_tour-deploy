@@ -15,6 +15,8 @@ import family1 from '../assets/images/past-trips/family_1.png';
 import family2 from '../assets/images/past-trips/family_2.png';
 import family3 from '../assets/images/past-trips/family_3.png';
 import family4 from '../assets/images/past-trips/family_4.png';
+import WishlistButton from '../components/UI/WishlistButton';
+import { getRecentlyViewed } from '../utils/recentlyViewed';
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 
@@ -45,6 +47,7 @@ const Home = () => {
   const [tours, setTours] = useState([]);
   const [loadingTours, setLoadingTours] = useState(true);
   const [toursError, setToursError] = useState(null);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
@@ -55,6 +58,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPopularTours();
+    setRecentlyViewed(getRecentlyViewed());
   }, []);
 
   const fetchPopularTours = async () => {
@@ -334,7 +338,10 @@ const Home = () => {
                     {/* Luxury overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
 
-                    {/* Premium badge */}
+                    <WishlistButton
+                      tour={{ categoryId: tour.categoryId, categoryName: tour.categoryName, imagePath: getImageUrl(tour.imagePath) || categoryImages[index % categoryImages.length] }}
+                      className="absolute top-3 right-3"
+                    />
 
                   </div>
 
@@ -371,6 +378,31 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && (
+        <section className="py-8">
+          <div className="container mx-auto px-4">
+            <h2 className="text-xl font-bold text-slate-100 mb-4">Recently Viewed</h2>
+            <div className="flex gap-4 overflow-x-auto pb-2">
+              {recentlyViewed.map((tour) => (
+                <Link
+                  key={tour.categoryId}
+                  to={`/tours/details/${tour.categoryId}`}
+                  className="shrink-0 w-40 card card-hover overflow-hidden"
+                >
+                  <div className="h-24 overflow-hidden">
+                    <img src={tour.imagePath} alt={tour.categoryName} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-medium text-slate-200 truncate">{tour.categoryName}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Past Trips Photos Carousel */}
       <section className="py-20 overflow-hidden">

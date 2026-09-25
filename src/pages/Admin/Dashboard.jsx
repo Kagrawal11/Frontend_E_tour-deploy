@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Card from '../../components/UI/Card';
 import Table from '../../components/UI/Table';
+import AdminTours from './AdminTours';
 import { adminAPI } from '../../api';
 
 const AdminDashboard = () => {
@@ -155,10 +156,10 @@ const AdminDashboard = () => {
               </Card>
 
               <div className="grid grid-cols-1 gap-4">
-                <button className="btn-secondary w-full text-left flex justify-between items-center group">
-                  <span>Add New Tour</span>
+                <Link to="/admin/tours" className="btn-secondary w-full text-left flex justify-between items-center group">
+                  <span>Manage Tours</span>
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                </button>
+                </Link>
                 <button className="btn-secondary w-full text-left flex justify-between items-center group">
                   <span>Manage Users</span>
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
@@ -174,7 +175,7 @@ const AdminDashboard = () => {
       )}
 
       <Routes>
-        <Route path="/tours" element={<div>Tour Management</div>} />
+        <Route path="/tours" element={<AdminTours />} />
         <Route path="/categories" element={<div>Category Management</div>} />
         <Route path="/bookings" element={<div>Booking Management</div>} />
         <Route path="/customers" element={<div>Customer Management</div>} />

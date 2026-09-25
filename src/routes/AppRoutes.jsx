@@ -12,6 +12,8 @@ import CustomerProfile from "../pages/CustomerProfile";
 import CustomerBookings from "../pages/CustomerBookings";
 import AdminDashboard from "../pages/Admin/Dashboard";
 import HealthPage from "../pages/Health";
+import Wishlist from "../pages/Wishlist";
+import FAQ from "../pages/FAQ";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => {
@@ -53,6 +55,8 @@ const AppRoutes = () => {
       />
       <Route path="/admin/*" element={<AdminDashboard />} />
       <Route path="/health" element={<HealthPage />} />
+      <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/faq" element={<FAQ />} />
     </Routes>
   );
 };

@@ -43,6 +43,9 @@ const Navbar = () => {
             <Link to="/tours" className={navLinkClass}>
               Tours
             </Link>
+            <Link to="/wishlist" className={navLinkClass}>
+              Wishlist
+            </Link>
             {isAuthenticated && (
               <>
                 <Link to="/customer/bookings" className={navLinkClass}>
@@ -119,6 +122,13 @@ const Navbar = () => {
               className="block text-slate-300 hover:text-white font-medium transition-colors"
             >
               Tours
+            </Link>
+            <Link
+              to="/wishlist"
+              onClick={() => setIsMenuOpen(false)}
+              className="block text-slate-300 hover:text-white font-medium transition-colors"
+            >
+              Wishlist
             </Link>
             {isAuthenticated ? (
               <>

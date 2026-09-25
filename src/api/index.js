@@ -72,6 +72,21 @@ export const bookingAPI = {
   // Downloads & Emails
   downloadInvoice: (bookingId) => api.get(`/api/invoices/${bookingId}/download`, { responseType: 'blob' }),
   sendInvoiceEmail: (paymentId) => api.post(`/api/email/invoice?paymentId=${paymentId}`),
+
+  // Cancellation
+  cancelBooking: (bookingId) => api.post(`/api/Booking/${bookingId}/cancel`),
+};
+
+export const reviewAPI = {
+  getReviews: (categoryId) => api.get(`/api/reviews/category/${categoryId}`),
+  addReview: (data) => api.post('/api/reviews', data),
+};
+
+export const adminTourAPI = {
+  list: () => api.get('/api/admin/tours'),
+  create: (data) => api.post('/api/admin/tours', data),
+  update: (categoryId, data) => api.put(`/api/admin/tours/${categoryId}`, data),
+  remove: (categoryId) => api.delete(`/api/admin/tours/${categoryId}`),
 };
 
 export const adminAPI = {

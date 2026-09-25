@@ -16,6 +16,7 @@ const CustomerBookings = () => {
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [loadingInvoice, setLoadingInvoice] = useState({}); // Tracking loading state per booking ID
   const [loadingEmail, setLoadingEmail] = useState({});
+  const [cancelling, setCancelling] = useState({});
 
   useEffect(() => {
     fetchBookings();
@@ -116,6 +117,52 @@ const CustomerBookings = () => {
     setSelectedBooking(null);
   };
 
+  const handlePrintInvoice = async (bookingId) => {
+    try {
+      setLoadingInvoice(prev => ({ ...prev, [bookingId]: true }));
+      const response = await bookingAPI.downloadInvoice(bookingId);
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const printWindow = window.open(url);
+      if (printWindow) {
+        printWindow.onload = () => printWindow.print();
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to open invoice for printing");
+    } finally {
+      setLoadingInvoice(prev => ({ ...prev, [bookingId]: false }));
+    }
+  };
+
+  const handleCopyBookingId = (bookingId) => {
+    navigator.clipboard.writeText(String(bookingId));
+    toast.success('Booking ID copied');
+  };
+
+  const handleCancelBooking = async (bookingId) => {
+    if (!window.confirm('Cancel this booking? If already paid, a refund will be initiated automatically.')) {
+      return;
+    }
+    try {
+      setCancelling(prev => ({ ...prev, [bookingId]: true }));
+      await bookingAPI.cancelBooking(bookingId);
+      toast.success('Booking cancelled');
+      fetchBookings();
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Failed to cancel booking');
+    } finally {
+      setCancelling(prev => ({ ...prev, [bookingId]: false }));
+    }
+  };
+
+  const getDaysUntilDeparture = (departDate) => {
+    if (!departDate) return null;
+    const diff = Math.ceil((new Date(departDate) - new Date()) / (1000 * 60 * 60 * 24));
+    return diff;
+  };
+
   const getStatusColor = (status) => {
     switch (status?.toUpperCase()) {
       case 'CONFIRMED':
@@ -192,8 +239,17 @@ const CustomerBookings = () => {
               <div className="p-6">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-100 mb-2">
+                    <h3 className="text-xl font-semibold text-slate-100 mb-2 flex items-center gap-2">
                       Booking #{booking.bookingId}
+                      <button
+                        onClick={() => handleCopyBookingId(booking.bookingId)}
+                        title="Copy Booking ID"
+                        className="text-slate-500 hover:text-slate-300 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </button>
                     </h3>
                     <div className="flex items-center space-x-4 text-sm text-slate-400">
                       <span>Ref: {booking.bookingId}</span>
@@ -201,7 +257,18 @@ const CustomerBookings = () => {
                       <span>Date: {formatDate(booking.bookingDate)}</span>
                     </div>
                   </div>
-                  <div className="mt-4 lg:mt-0">
+                  <div className="mt-4 lg:mt-0 flex items-center gap-3">
+                    {(() => {
+                      const days = getDaysUntilDeparture(booking.departDate);
+                      if (days !== null && days >= 0 && booking.statusName !== 'CANCELLED') {
+                        return (
+                          <span className="badge">
+                            {days === 0 ? 'Departs today' : `${days} day${days === 1 ? '' : 's'} to go`}
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
                     <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(booking.statusName)}`}>
                       {booking.statusName}
                     </span>
@@ -219,8 +286,28 @@ const CustomerBookings = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end mt-6 pt-4 border-t">
+                <div className="flex items-center justify-between mt-6 pt-4 border-t">
+                  {booking.statusName !== 'CANCELLED' ? (
+                    <button
+                      onClick={() => handleCancelBooking(booking.bookingId)}
+                      disabled={cancelling[booking.bookingId]}
+                      className="inline-flex items-center px-4 py-2 bg-rose-400/10 text-rose-300 hover:bg-rose-400/20 font-bold text-xs rounded-xl transition-all disabled:opacity-50"
+                    >
+                      {cancelling[booking.bookingId] ? 'Cancelling...' : 'Cancel Booking'}
+                    </button>
+                  ) : <span />}
                   <div className="flex space-x-3">
+                    <button
+                      onClick={() => handlePrintInvoice(booking.bookingId)}
+                      disabled={loadingInvoice[booking.bookingId]}
+                      title="Print Invoice"
+                      className="inline-flex items-center px-4 py-2 bg-white/[0.06] text-slate-300 hover:bg-white/[0.1] font-bold text-xs rounded-xl transition-all disabled:opacity-50"
+                    >
+                      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a1 1 0 001-1v-4H8v4a1 1 0 001 1zm0-16h6v4H8V5z" />
+                      </svg>
+                      Print
+                    </button>
                     <button
                       onClick={() => handleDownloadInvoice(booking.bookingId)}
                       disabled={loadingInvoice[booking.bookingId]}

@@ -72,9 +72,9 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-white">{t('footer.support')}</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
+                <Link to="/faq" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">
                   Help Center
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-slate-400 hover:text-[#8b7bff] transition-colors px-1">

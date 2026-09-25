@@ -1,6 +1,14 @@
 import React from 'react';
 import { useBooking } from '../../context/BookingContext';
 import { bookingAPI } from '../../api';
+import { toast } from 'react-toastify';
+
+// Client-side promo codes: percentage off the tour subtotal, applied before
+// tax so it genuinely reduces what's charged (not just a cosmetic label).
+const PROMO_CODES = {
+  WELCOME10: 0.10,
+  VIRTUGO5: 0.05,
+};
 
 const ReviewBooking = () => {
   const {
@@ -15,6 +23,21 @@ const ReviewBooking = () => {
 
   const [isVerifying, setIsVerifying] = React.useState(false);
   const [verificationStatus, setVerificationStatus] = React.useState('');
+  const [promoInput, setPromoInput] = React.useState('');
+  const [appliedPromo, setAppliedPromo] = React.useState(null);
+  const [promoError, setPromoError] = React.useState('');
+
+  const handleApplyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    if (PROMO_CODES[code]) {
+      setAppliedPromo({ code, discount: PROMO_CODES[code] });
+      setPromoError('');
+      toast.success(`Promo applied: ${Math.round(PROMO_CODES[code] * 100)}% off`);
+    } else {
+      setAppliedPromo(null);
+      setPromoError('Invalid or expired promo code');
+    }
+  };
 
   const handleConfirmBooking = async () => {
     try {
@@ -23,7 +46,8 @@ const ReviewBooking = () => {
         return;
       }
 
-      const baseAmount = calculateTotal();
+      const subtotal = calculateTotal();
+      const baseAmount = appliedPromo ? Math.round(subtotal * (1 - appliedPromo.discount)) : subtotal;
       const taxes = Math.round(baseAmount * 0.1);
 
       const bookingPayload = {
@@ -257,17 +281,49 @@ const ReviewBooking = () => {
           <div>
             <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Payment Summary</h3>
             <div className="p-4 rounded-xl border space-y-2" style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}>
-              <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Base Amount</span>
-                <span className="font-medium text-slate-200">₹{calculateTotal().toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-slate-400">Taxes (10%)</span>
-                <span className="font-medium text-slate-200">₹{(calculateTotal() * 0.1).toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-lg font-bold border-t pt-2 mt-2" style={{ borderColor: 'var(--color-border)' }}>
-                <span className="text-slate-100">Total</span>
-                <span className="gradient-text">₹{(calculateTotal() * 1.1).toFixed(2)}</span>
+              {(() => {
+                const subtotal = calculateTotal();
+                const discounted = appliedPromo ? subtotal * (1 - appliedPromo.discount) : subtotal;
+                const taxes = discounted * 0.1;
+                return (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-400">Base Amount</span>
+                      <span className={`font-medium ${appliedPromo ? 'line-through text-slate-500' : 'text-slate-200'}`}>₹{subtotal.toFixed(2)}</span>
+                    </div>
+                    {appliedPromo && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-emerald-300">Promo ({appliedPromo.code})</span>
+                        <span className="font-medium text-emerald-300">-₹{(subtotal * appliedPromo.discount).toFixed(2)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-400">Taxes (10%)</span>
+                      <span className="font-medium text-slate-200">₹{taxes.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-lg font-bold border-t pt-2 mt-2" style={{ borderColor: 'var(--color-border)' }}>
+                      <span className="text-slate-100">Total</span>
+                      <span className="gradient-text">₹{(discounted + taxes).toFixed(2)}</span>
+                    </div>
+                  </>
+                );
+              })()}
+
+              {/* Promo code */}
+              <div className="pt-3 mt-1 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    placeholder="Promo code (try WELCOME10)"
+                    className="input-field flex-1 py-1.5 text-sm"
+                  />
+                  <button type="button" onClick={handleApplyPromo} className="btn-secondary py-1.5 px-4 text-sm">
+                    Apply
+                  </button>
+                </div>
+                {promoError && <p className="text-xs text-rose-400 mt-1.5">{promoError}</p>}
               </div>
             </div>
           </div>

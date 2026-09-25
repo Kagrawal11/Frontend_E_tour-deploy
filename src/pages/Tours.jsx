@@ -1,7 +1,8 @@
 // UPDATED CODE FOR COST AND LOCATION SEARCH
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import Card from "../components/UI/Card";
+import WishlistButton from "../components/UI/WishlistButton";
 import { tourAPI, searchAPI } from "../api";
 
 
@@ -28,6 +29,8 @@ const Tours = () => {
   const [error, setError] = useState(null);
 
   const [isSearchMode, setIsSearchMode] = useState(false);
+  const [sortBy, setSortBy] = useState('default');
+  const [maxPrice, setMaxPrice] = useState('');
 
   // Carried forward from Home's search widget so it can reach TourDetail /
   // BookingStart for passenger prefill. Frontend-only, not sent to the backend.
@@ -153,15 +156,50 @@ const Tours = () => {
 
   /* ================= FINAL DISPLAY LOGIC ================= */
 
-  // No longer filtering client-side, as 'tours' is already filtered source
-  const displayTours = tours;
+  const displayTours = useMemo(() => {
+    let list = [...tours];
+
+    if (maxPrice) {
+      list = list.filter((t) => !t.starting_price || t.starting_price <= Number(maxPrice));
+    }
+
+    switch (sortBy) {
+      case 'price-asc':
+        list.sort((a, b) => (a.starting_price ?? Infinity) - (b.starting_price ?? Infinity));
+        break;
+      case 'price-desc':
+        list.sort((a, b) => (b.starting_price ?? -Infinity) - (a.starting_price ?? -Infinity));
+        break;
+      case 'rating':
+        list.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'name':
+        list.sort((a, b) => a.tour_name.localeCompare(b.tour_name));
+        break;
+      default:
+        break;
+    }
+    return list;
+  }, [tours, sortBy, maxPrice]);
 
   /* ================= UI ================= */
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-t-transparent" style={{ borderColor: '#7c5cff', borderTopColor: 'transparent' }}></div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="card h-[26rem] animate-pulse">
+              <div className="h-48" style={{ background: 'var(--color-surface-2)' }}></div>
+              <div className="p-4 space-y-3">
+                <div className="h-3 w-1/3 rounded" style={{ background: 'var(--color-surface-2)' }}></div>
+                <div className="h-4 w-2/3 rounded" style={{ background: 'var(--color-surface-2)' }}></div>
+                <div className="h-3 w-full rounded" style={{ background: 'var(--color-surface-2)' }}></div>
+                <div className="h-3 w-1/2 rounded" style={{ background: 'var(--color-surface-2)' }}></div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
@@ -182,6 +220,34 @@ const Tours = () => {
         </h1>
         <div className="w-20 h-1.5 mx-auto rounded-full mb-4" style={{ background: 'linear-gradient(90deg, #7c5cff, #22d3ee)' }}></div>
         <p className="text-xl text-slate-400 font-light">Discover your next adventure</p>
+      </div>
+
+      {/* Filter & sort bar */}
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between mb-8 panel">
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-slate-400 shrink-0">Max price</label>
+          <input
+            type="number"
+            placeholder="Any"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="input-field w-32 py-1.5"
+          />
+        </div>
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-slate-400 shrink-0">Sort by</label>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="input-field py-1.5"
+          >
+            <option value="default" className="bg-[#0f111a]">Recommended</option>
+            <option value="price-asc" className="bg-[#0f111a]">Price: Low to High</option>
+            <option value="price-desc" className="bg-[#0f111a]">Price: High to Low</option>
+            <option value="rating" className="bg-[#0f111a]">Rating</option>
+            <option value="name" className="bg-[#0f111a]">Name: A-Z</option>
+          </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-slide-up">
@@ -215,6 +281,10 @@ const Tours = () => {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                <WishlistButton
+                  tour={{ categoryId: tour.catid, categoryName: tour.tour_name, imagePath: getImageUrl(tour.image_url) }}
+                  className="absolute top-3 right-3"
+                />
               </div>
 
               <div className="p-4 flex flex-col flex-grow">
